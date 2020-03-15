@@ -9,11 +9,13 @@ namespace BlabberApp.DomainTest.Entities
         //Attributes
         private BaseEntity _harness;
         
+
         //Constructor
         public BaseEntityTest()
         {
             this._harness = new BaseEntity();
         }
+
 
         //Methods
         [TestMethod]
@@ -28,6 +30,19 @@ namespace BlabberApp.DomainTest.Entities
             //Assert
             Assert.AreEqual(actual.ToString(), expected.ToString());
             Assert.AreEqual(true, this._harness.getSysId() is string);
+        }
+
+        [TestMethod]
+        public void TestEqualSysId()
+        {
+            //Arrange
+            BaseEntity expected = this._harness;
+
+            //Act
+            BaseEntity actual = this._harness;
+
+            //Assert
+            Assert.IsTrue(expected.Equals(actual.getSysId()));
         }
 
         [TestMethod]

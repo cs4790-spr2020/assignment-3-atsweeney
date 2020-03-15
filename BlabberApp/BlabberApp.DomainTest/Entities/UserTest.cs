@@ -16,10 +16,10 @@ namespace BlabberApp.DomainTest.Entities
             harness.ChangeEmail("foobar@example.com");
 
             //Act
-            string actual = harness.Email;
+            string actual = harness.Email.ToString();
 
             //Assert
-            Assert.AreEqual(actual.ToString(), expected.ToString());
+            Assert.AreEqual(actual, expected);
         }
 
         [TestMethod]
@@ -72,7 +72,7 @@ namespace BlabberApp.DomainTest.Entities
             string actual = harness.getSysId();
 
             //Assert
-            Assert.AreEqual(actual.ToString(), expected.ToString());
+            Assert.AreEqual(actual, expected);
             Assert.AreEqual(true, harness.getSysId() is string);
         }
     }

@@ -26,14 +26,14 @@ namespace BlabberApp.DomainTest.Entities
         {
             //Arrange
             Blab harness = new Blab();
-            string expected = "foobar@example.com";
             harness.UserID = "foobar@example.com";
+            string expected = "foobar@example.com";
 
             //Act
-            string actual = harness.UserID;
+            string actual = harness.UserID.ToString();
 
             //Assert
-            Assert.AreEqual(actual.ToString(), expected.ToString());
+            Assert.AreEqual(actual, expected);
         }
 
         [TestMethod]
