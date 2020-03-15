@@ -7,7 +7,7 @@ using BlabberApp.Domain.Interfaces;
 
 namespace BlabberApp.DataStore
 {
-    public class InMemory<T> : iRepository<T> where T : Blab
+    public class InMemory<T> : iRepository<T> where T : BaseEntity
     {
         //Attributes
         private ApplicationContext Context;
@@ -77,7 +77,7 @@ namespace BlabberApp.DataStore
                 throw new ArgumentNullException("userId is null");
             }
 
-            return this._entities.SingleOrDefault(s => s.UserID == userId);
+            return this._entities.Find(userId);
         }
     }
 }
