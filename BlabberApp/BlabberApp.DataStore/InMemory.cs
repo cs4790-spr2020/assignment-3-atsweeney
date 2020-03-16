@@ -67,7 +67,7 @@ namespace BlabberApp.DataStore
                 throw new ArgumentNullException("sysId is null");
             }
 
-            return this._entities.SingleOrDefault(s => s.getSysId() == sysId);
+            return this._entities.FirstOrDefault(s => s.SysId == sysId);
         }
 
         public T GetByUserId(string userId)

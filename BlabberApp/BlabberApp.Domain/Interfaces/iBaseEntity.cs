@@ -2,6 +2,6 @@
 {
     public interface iBaseEntity
     {
-        string getSysId();
+        bool Equals(string AnotherID);
     }
 }

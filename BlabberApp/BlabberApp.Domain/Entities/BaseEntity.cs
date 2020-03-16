@@ -10,6 +10,14 @@ namespace BlabberApp.Domain.Entities
 
 
         //Properties
+        public string SysId 
+        {
+            get 
+            {
+                return this._SysId;
+            }
+        }
+
         public DateTime CreatedDTTM { get; set; }
 
         public DateTime ModifiedDTTM { get; set; }
@@ -25,11 +33,6 @@ namespace BlabberApp.Domain.Entities
 
 
         //Methods
-        public string getSysId()
-        {
-            return this._SysId;
-        }
-
         public bool Equals(string AnotherID)
         {
             return this._SysId.Equals(AnotherID);

@@ -19,21 +19,21 @@ namespace BlabberApp.DomainTest.Entities
 
         //Methods
         [TestMethod]
-        public void TestGetSysId()
+        public void TestSysId()
         {
             //Arrange
-            string expected = this._harness.getSysId();
+            string expected = this._harness.SysId;
 
             //Act
-            string actual = this._harness.getSysId();
+            string actual = this._harness.SysId;
 
             //Assert
             Assert.AreEqual(actual.ToString(), expected.ToString());
-            Assert.AreEqual(true, this._harness.getSysId() is string);
+            Assert.AreEqual(true, this._harness.SysId is string);
         }
 
         [TestMethod]
-        public void TestEqualSysId()
+        public void TestEqualsSysId()
         {
             //Arrange
             BaseEntity expected = this._harness;
@@ -42,7 +42,7 @@ namespace BlabberApp.DomainTest.Entities
             BaseEntity actual = this._harness;
 
             //Assert
-            Assert.IsTrue(expected.Equals(actual.getSysId()));
+            Assert.IsTrue(expected.Equals(actual.SysId));
         }
 
         [TestMethod]

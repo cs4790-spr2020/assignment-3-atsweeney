@@ -41,14 +41,14 @@ namespace BlabberApp.DomainTest.Entities
         {
             //Arrange
             Blab harness = new Blab();
-            string expected = harness.getSysId();
+            string expected = harness.SysId;
 
             //Act
-            string actual = harness.getSysId();
+            string actual = harness.SysId;
 
             //Assert
             Assert.AreEqual(actual, expected);
-            Assert.AreEqual(true, harness.getSysId() is string);
+            Assert.AreEqual(true, harness.SysId is string);
         }
 
         [TestMethod]

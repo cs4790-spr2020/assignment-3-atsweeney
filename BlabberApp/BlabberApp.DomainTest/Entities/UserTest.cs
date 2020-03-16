@@ -23,7 +23,7 @@ namespace BlabberApp.DomainTest.Entities
         }
 
         [TestMethod]
-        public void TestSetGetEmail_Fail00()
+        public void TestSetGetEmail_Fail01()
         {
             //Arrange
             User harness = new User();
@@ -36,7 +36,7 @@ namespace BlabberApp.DomainTest.Entities
         }
 
         [TestMethod]
-        public void TestSetGetEmail_Fail01()
+        public void TestSetGetEmail_Fail02()
         {
             //Arrange
             User harness = new User();
@@ -49,7 +49,7 @@ namespace BlabberApp.DomainTest.Entities
         }
 
         [TestMethod]
-        public void TestSetGetEmail_Fail02()
+        public void TestSetGetEmail_Fail03()
         {
             //Arrange
             User harness = new User();
@@ -66,14 +66,44 @@ namespace BlabberApp.DomainTest.Entities
         {
             //Arrange
             User harness = new User();
-            string expected = harness.getSysId();
+            string expected = harness.SysId;
 
             //Act
-            string actual = harness.getSysId();
+            string actual = harness.SysId;
 
             //Assert
             Assert.AreEqual(actual, expected);
-            Assert.AreEqual(true, harness.getSysId() is string);
+            Assert.AreEqual(true, harness.SysId is string);
+        }
+
+        [TestMethod]
+        public void TestGetSetRegisterDTTM()
+        {
+            //Arrange
+            User Expected = new User();
+            Expected.RegisterDTTM = DateTime.Now;
+
+            //Act
+            User Actual = new User();
+            Actual.RegisterDTTM = DateTime.Now;
+
+            //Assert
+            Assert.AreEqual(Expected.RegisterDTTM.ToString(), Actual.RegisterDTTM.ToString());
+        }
+
+        [TestMethod]
+        public void TestGetSetLastLoginDTTM()
+        {
+            //Arrange
+            User Expected = new User();
+            Expected.LastLoginDTTM = DateTime.Now;
+
+            //Act
+            User Actual = new User();
+            Actual.LastLoginDTTM = DateTime.Now;
+
+            //Assert
+            Assert.AreEqual(Expected.LastLoginDTTM.ToString(), Actual.LastLoginDTTM.ToString());
         }
     }
 }
