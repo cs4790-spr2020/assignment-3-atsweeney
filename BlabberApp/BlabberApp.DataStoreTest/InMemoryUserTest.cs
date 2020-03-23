@@ -11,22 +11,33 @@ namespace BlabberApp.DataStoreTest
     [TestClass]
     public class InMemory_User_UnitTests
     {
+        //Attributes
+         private InMemory<User> _harness;
+
+
+        //Constructor
+         public InMemory_User_UnitTests()
+        {
+            var options = new DbContextOptionsBuilder<ApplicationContext>()
+                .UseInMemoryDatabase(databaseName: "Add_writes")
+                .Options;
+            this._harness = new InMemory<User>(new ApplicationContext(options));
+        }
+
+
         //Methods
         [TestMethod]
         public void Add_User_GetBySysId_Success()
         {
             //Arrange
-            var options = new DbContextOptionsBuilder<ApplicationContext>()
-                .UseInMemoryDatabase(databaseName: "Add_writes_to_database")
-                .Options;
-            InMemory<User> harness = new InMemory<User>(new ApplicationContext(options));
-            string Email = "foo1@example.com";
+            this._harness.Reset();
+            string Email = "foo@example.com";
             User Expected = new User();
             Expected.ChangeEmail(Email);
-            harness.Add(Expected);
+            this._harness.Add(Expected);
 
             //Act
-            User Actual = (User)harness.GetBySysId(Expected.SysId);
+            User Actual = (User)this._harness.GetBySysId(Expected.SysId);
 
             //Assert
             Assert.AreEqual(Expected.Email, Actual.Email);
@@ -36,17 +47,14 @@ namespace BlabberApp.DataStoreTest
         public void Add_User_GetBySysId_Fail01()
         {
             //Arrange
-            var options = new DbContextOptionsBuilder<ApplicationContext>()
-                .UseInMemoryDatabase(databaseName: "Add_writes_to_database")
-                .Options;
-            InMemory<User> harness = new InMemory<User>(new ApplicationContext(options));
-            string Email = "foo2@example.com";
+            this._harness.Reset();
+            string Email = "foo@example.com";
             User Expected = new User();
             Expected.ChangeEmail(Email);
-            harness.Add(Expected);
+            this._harness.Add(Expected);
 
             //Act
-            var ex = Assert.ThrowsException<ArgumentNullException>(() => harness.GetBySysId(""));
+            var ex = Assert.ThrowsException<ArgumentNullException>(() => this._harness.GetBySysId(""));
 
             //Assert
             Assert.AreEqual("sysId is null", ex.ParamName.ToString());
@@ -56,51 +64,76 @@ namespace BlabberApp.DataStoreTest
         public void Add_User_GetBySysId_Fail02()
         {
             //Arrange
-            var options = new DbContextOptionsBuilder<ApplicationContext>()
-                .UseInMemoryDatabase(databaseName: "Add_writes_to_database")
-                .Options;
-            InMemory<User> harness = new InMemory<User>(new ApplicationContext(options));
+            this._harness.Reset();
             User expected = null;
 
             //Act
-            var ex = Assert.ThrowsException<ArgumentNullException>(() => harness.Add(expected));
+            var ex = Assert.ThrowsException<ArgumentNullException>(() => this._harness.Add(expected));
 
             //Assert
             Assert.AreEqual("Entity is null", ex.ParamName.ToString());
         }
 
         [TestMethod]
+        public void Add_User_GetByUserId_Success()
+        {
+            //Arrange
+            this._harness.Reset();
+            string Email = "foo@example.com";
+            User Expected = new User();
+            Expected.ChangeEmail(Email);
+            this._harness.Add(Expected);
+
+            //Act
+            User Actual = (User)this._harness.GetByUserId(Expected.Email);
+
+            //Assert
+            Assert.AreEqual(Expected.Email, Actual.Email);
+        }
+
+        [TestMethod]
+        public void Add_User_GetByUserId_Fail()
+        {
+            //Arrange
+            this._harness.Reset();
+            string Email = "foo@example.com";
+            User Expected = new User();
+            Expected.ChangeEmail(Email);
+            this._harness.Add(Expected);
+
+            //Act
+            var ex = Assert.ThrowsException<ArgumentNullException>(() => this._harness.GetByUserId(""));
+
+            //Assert
+            Assert.AreEqual("userId is null", ex.ParamName.ToString());
+        }
+
+        [TestMethod]
         public void Remove_User_Success()
         {
             //Arrange
-            var options = new DbContextOptionsBuilder<ApplicationContext>()
-                .UseInMemoryDatabase(databaseName: "Add_writes_to_database")
-                .Options;
-            InMemory<User> harness = new InMemory<User>(new ApplicationContext(options));
-            string Email = "foo3@example.com";
+            this._harness.Reset();
+            string Email = "foo@example.com";
             User Test = new User();
             Test.ChangeEmail(Email);
-            harness.Add(Test);
+            this._harness.Add(Test);
 
             //Act
-            harness.Remove(Test);
+            this._harness.Remove(Test);
 
             //Assert
-            Assert.IsNull(harness.GetBySysId(Test.SysId));
+            Assert.IsNull(this._harness.GetBySysId(Test.SysId));
         }
 
         [TestMethod]
         public void Remove_User_Fail()
         {
             //Arrange
-            var options = new DbContextOptionsBuilder<ApplicationContext>()
-                .UseInMemoryDatabase(databaseName: "Add_writes_to_database")
-                .Options;
-            InMemory<User> harness = new InMemory<User>(new ApplicationContext(options));
+            this._harness.Reset();
             User expected = null;
 
             //Act
-            var ex = Assert.ThrowsException<ArgumentNullException>(() => harness.Remove(expected));
+            var ex = Assert.ThrowsException<ArgumentNullException>(() => this._harness.Remove(expected));
 
             //Assert
             Assert.AreEqual("Entity is null", ex.ParamName.ToString());
@@ -110,22 +143,19 @@ namespace BlabberApp.DataStoreTest
         public void Update_User_Success()
         {
             //Arrange
-            var options = new DbContextOptionsBuilder<ApplicationContext>()
-                .UseInMemoryDatabase(databaseName: "Add_writes_to_database")
-                .Options;
-            InMemory<User> harness = new InMemory<User>(new ApplicationContext(options));
-            string Email = "foo4@example.com";
+            this._harness.Reset();
+            string Email = "foo@example.com";
             User Test = new User();
             string TestSysId = Test.SysId;
             Test.ChangeEmail(Email);
             Test.LastLoginDTTM = DateTime.Now;
-            harness.Add(Test);
+            this._harness.Add(Test);
 
             //Act
             DateTime NewTime = DateTime.UtcNow;
             Test.LastLoginDTTM = NewTime;
-            harness.Update(Test);
-            User Test2 = (User)harness.GetBySysId(TestSysId);
+            this._harness.Update(Test);
+            User Test2 = (User)this._harness.GetBySysId(TestSysId);
 
             //Assert
             Assert.AreEqual(NewTime.ToString(), Test2.LastLoginDTTM.ToString());
@@ -135,14 +165,11 @@ namespace BlabberApp.DataStoreTest
         public void Update_User_Fail()
         {
             //Arrange
-            var options = new DbContextOptionsBuilder<ApplicationContext>()
-                .UseInMemoryDatabase(databaseName: "Add_writes_to_database")
-                .Options;
-            InMemory<User> harness = new InMemory<User>(new ApplicationContext(options));
+            this._harness.Reset();
             User expected = null;
 
             //Act
-            var ex = Assert.ThrowsException<ArgumentNullException>(() => harness.Update(expected));
+            var ex = Assert.ThrowsException<ArgumentNullException>(() => this._harness.Update(expected));
 
             //Assert
             Assert.AreEqual("Entity is null", ex.ParamName.ToString());
@@ -152,17 +179,23 @@ namespace BlabberApp.DataStoreTest
         public void GetAll_User_Success()
         {
             //Arrange
-            var options = new DbContextOptionsBuilder<ApplicationContext>()
-                .UseInMemoryDatabase(databaseName: "Add_writes_to_database")
-                .Options;
-            InMemory<User> harness = new InMemory<User>(new ApplicationContext(options));
+            this._harness.Reset();
+            string Email1 = "foo@example.com";
+            string Email2 = "bar@example.com";
+            User Expected1 = new User();
+            User Expected2 = new User();
+            Expected1.ChangeEmail(Email1);
+            Expected2.ChangeEmail(Email2);
+            this._harness.Add(Expected1);
+            this._harness.Add(Expected2);
 
             //Act
-            var AllTheUsers = harness.GetAll();
+            var AllTheUsers = this._harness.GetAll();
 
             //Assert
             Assert.IsTrue(AllTheUsers is IEnumerable);
-            Assert.AreEqual("foo1@example.com", AllTheUsers.First().Email);
+            Assert.AreEqual("foo@example.com", AllTheUsers.First().Email);
+            Assert.AreEqual("bar@example.com", AllTheUsers.Last().Email);
         }
     }
 }

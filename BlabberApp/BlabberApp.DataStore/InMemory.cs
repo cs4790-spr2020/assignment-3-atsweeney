@@ -79,5 +79,10 @@ namespace BlabberApp.DataStore
 
             return this._entities.Find(userId);
         }
+
+        public void Reset()
+        {
+            this._entities.RemoveRange(this._entities);
+        }
     }
 }
